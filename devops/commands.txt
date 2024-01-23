@@ -15,3 +15,18 @@ NOTE: docker port here is the port where your app server is running e.g. 8000 fo
 for backend: 
 
 docker run -p 8000:8000 backend:v1
+
+-- for docker compose:
+
+docker-compose up --build
+
+in some OS: command might be:
+
+docker compose up --build
+
+-- for ssh
+
+ssh -i <pem_file_location> username@public_ip_address
+
+username for ubuntu: ubuntu
+username for amazon linux: ec2-user
