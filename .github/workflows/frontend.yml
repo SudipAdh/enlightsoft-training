@@ -34,5 +34,5 @@ jobs:
 
     - name: Run hello World
       run: |
-        cd devops/fronted
+        cd devops/frontend
         node hello_world.js
