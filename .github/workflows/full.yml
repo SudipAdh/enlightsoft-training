@@ -9,7 +9,7 @@ jobs:
   build-and-deploy-dev-to-master:
     if: |
       github.event.pull_request.merged == true &&
-      github.event.pull_request.base.ref == 'master' && 
+      github.event.pull_request.base.ref == 'main' && 
       github.event.pull_request.head.ref == 'dev'
     runs-on: ubuntu-latest
 
