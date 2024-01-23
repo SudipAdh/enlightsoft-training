@@ -3,10 +3,10 @@ name: Next.js CI/CD
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -34,5 +34,5 @@ jobs:
 
     - name: Run hello World
       run: |
-        cd devops/fronted
+        cd devops/frontend
         node hello_world.js
