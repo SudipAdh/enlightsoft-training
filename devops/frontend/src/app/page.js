@@ -10,7 +10,7 @@ const HelloComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/hello/');
+        const response = await fetch('http://backend:8000/api/hello/');
         const data = await response.json();
         setMessage(data.message);
       } catch (error) {
