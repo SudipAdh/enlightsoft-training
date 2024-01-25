@@ -30,3 +30,66 @@ ssh -i <pem_file_location> username@public_ip_address
 
 username for ubuntu: ubuntu
 username for amazon linux: ec2-user
+
+
+-- using postgres as docker image
+
+1) there is a file called docker-compose-db-sample.yml
+2) see the db service and web service there:
+3) web is powering up the django backend server & db is postgres
+4) make sure to pass the db connectinn string in django backend image
+5) change your backend django setting to this:
+
+
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://fastapi_traefik:fastapi_traefik@db:5432/dropcenter_wheel?currentSchema=postgres")
+print(DATABASE_URL)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'OPTIONS': {
+            'options': '-c search_path=postgres'
+        },
+        'NAME': urlparse(DATABASE_URL).path[1:],
+        'USER': urlparse(DATABASE_URL).username,
+        'PASSWORD': urlparse(DATABASE_URL).password,
+        'HOST': urlparse(DATABASE_URL).hostname,
+        # "HOST":"localhost",
+        'PORT': urlparse(DATABASE_URL).port,
+        # "PORT": "5431"
+    }
+}
+
+now your django app should be connected to postgres db server without any server. 
+REMEMBER: now, django app and postgres both are in docker using docker-compose.
+
+-- SERVER SIDE
+1) after creating server, you have to work in security group
+2) in security group, you can define the inbound and outbound rules
+3) add new rules as per your demand: 
+e.g. if django is running in 8000 port, 
+add new rule as:
+custom TCP , port: 8000, from : anywhere ipv4 
+custom TCP , port: 8000, from : anywhere ipv6
+
+4) change the allowed host in settings.py file of your django
+look into django project of this repo to refer to that: 
+ALLOWED_HOSTS = ['*']
+basically it allows to connect to our django app from anywhere.
+
+
+5) if you are trying to access backend django server from frontend,
+you have to add cross-origin: follow the below steps: 
+
+-- pip install django-cors-headers
+add 'corsheaders' in the INSTALLED_APPS in settings.py
+also add this in settings.py
+
+CORS_ALLOWED_ORIGINS = [
+    "http://<SERVER-IP>:3000",
+    "http://localhost:3000",  # Add the URL of your Next.js app
+    # Add other allowed origins as needed
+]
+
+basically we are specifying from where our fronted is
