@@ -93,3 +93,15 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 basically we are specifying from where our fronted is
+
+
+-- workflow file in self-hosted env:
+
+- go to your repo actions in github
+- click on runners
+- add new runners
+- copy the command and paste one by one in your server (you might have to do ssh inorder to go to server)
+- at last run the ""./run.sh &"" to run it in the background
+- now you can define:
+    runs-on: self-hosted 
+to allow the action steps to run in your own server
